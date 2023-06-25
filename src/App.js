@@ -1,15 +1,13 @@
 import "./App.css";
-import BarChart from "./BarChart";
-// Import useState and useEffect
+import BubbleChart from "./BubbleChart";
 import { useState, useEffect } from "react";
-import * as d3 from "d3"; // import D3
+import * as d3 from "d3";
 
 function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    d3.csv("./cities.csv").then((data) => {
-      data.sort((a, b) => a.country < b.country);
+    d3.json("./data.json").then((data) => {
       setData(data);
     });
   }, []);
@@ -17,7 +15,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <BarChart data={data} />
+        <BubbleChart data={data} />
       </header>
     </div>
   );

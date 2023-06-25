@@ -1,0 +1,152 @@
+[
+  {
+    "size": 1,
+    "color": "red",
+    "speed": 1,
+    "percent": 50
+  },
+  {
+    "size": 1,
+    "color": "yellow",
+    "speed": 1,
+    "percent": 40
+  },
+  {
+    "size": 1,
+    "color": "black",
+    "speed": 1,
+    "percent": 30
+  },
+  {
+    "size": 1,
+    "color": "white",
+    "speed": 1,
+    "percent": 40
+  },
+  {
+    "size": 1,
+    "color": "blue",
+    "speed": 1,
+    "percent": 10
+  },
+  {
+    "size": 1,
+    "color": "red",
+    "speed": 2,
+    "percent": 45
+  },
+  {
+    "size": 1,
+    "color": "yellow",
+    "speed": 2,
+    "percent": 40
+  },
+  {
+    "size": 1,
+    "color": "black",
+    "speed": 2,
+    "percent": 30
+  },
+  {
+    "size": 1,
+    "color": "white",
+    "speed": 2,
+    "percent": 50
+  },
+  {
+    "size": 1,
+    "color": "blue",
+    "speed": 2,
+    "percent": 10
+  },
+  {
+    "size": 1,
+    "color": "red",
+    "speed": 3,
+    "percent": 40
+  },
+  {
+    "size": 1,
+    "color": "yellow",
+    "speed": 3,
+    "percent": 30
+  },
+  {
+    "size": 1,
+    "color": "black",
+    "speed": 3,
+    "percent": 20
+  },
+  {
+    "size": 1,
+    "color": "white",
+    "speed": 3,
+    "percent": 40
+  },
+  {
+    "size": 1,
+    "color": "blue",
+    "speed": 3,
+    "percent": 5
+  },
+  {
+    "size": 1,
+    "color": "red",
+    "speed": 4,
+    "percent": 25
+  },
+  {
+    "size": 1,
+    "color": "yellow",
+    "speed": 4,
+    "percent": 10
+  },
+  {
+    "size": 1,
+    "color": "black",
+    "speed": 4,
+    "percent": 15
+  },
+  {
+    "size": 1,
+    "color": "white",
+    "speed": 4,
+    "percent": 30
+  },
+  {
+    "size": 1,
+    "color": "blue",
+    "speed": 4,
+    "percent": 0
+  },
+  {
+    "size": 1,
+    "color": "red",
+    "speed": 5,
+    "percent": 5
+  },
+  {
+    "size": 1,
+    "color": "yellow",
+    "speed": 5,
+    "percent": 0
+  },
+  {
+    "size": 1,
+    "color": "black",
+    "speed": 5,
+    "percent": 0
+  },
+  {
+    "size": 1,
+    "color": "white",
+    "speed": 5,
+    "percent": 10
+  },
+  {
+    "size": 1,
+    "color": "blue",
+    "speed": 5,
+    "percent": 0
+  }
+]
