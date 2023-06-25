@@ -7,7 +7,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    d3.json("./data.json").then((data) => {
+    d3.json("./data2.json").then((data) => {
       setData(data);
     });
   }, []);

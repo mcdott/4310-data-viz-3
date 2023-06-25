@@ -1,9 +1,15 @@
 import * as d3 from "d3";
 import { useD3 } from "./useD3";
+import { useState } from "react";
 
 function BubbleChart({ data }) {
+  const [scale, setScale] = useState([0, 100]);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+
   const ref = useD3(
     (svg) => {
+      svg.selectAll("*").remove(); // Clear svg before each render
       const margin = { top: 20, right: 30, bottom: 60, left: 60 };
       const width = 800 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
@@ -26,13 +32,13 @@ function BubbleChart({ data }) {
 
       const yScale = d3
         .scaleLinear()
-        .domain([0, 100]) // percent ranges from 0 to 100
+        .domain(scale) // takes the scale state
         .range([height, 0]);
 
       const colorScale = d3
         .scaleOrdinal()
         .domain(data.map((d) => d.color))
-        .range(["red", "yellow", "black", "white", "blue"]);
+        .range(["red", "yellow", "black", "white", "grey"]);
 
       const radius = d3
         .scaleSqrt()
@@ -50,8 +56,9 @@ function BubbleChart({ data }) {
         .attr("class", "bubble")
         .attr("cx", (d) => xScale(speeds[d.speed]) + xScale.bandwidth() / 2) // center the bubbles
         .attr("cy", (d) => yScale(d.percent))
-        .attr("r", (d) => radius(d.size))
-        .style("fill", (d) => colorScale(d.color));
+        .attr("r", (d) => radius(d.size * 0.8))
+        .style("fill", (d) => colorScale(d.color))
+        .style("opacity", 0.7);
 
       // Add the X Axis
       g.append("g")
@@ -75,23 +82,49 @@ function BubbleChart({ data }) {
         .attr("text-anchor", "middle")
         .text("Percent tracked");
     },
-    [JSON.stringify(data)]
+    [JSON.stringify(data), scale]
   );
 
+  const handleChange = () => {
+    if (start && end && !isNaN(start) && !isNaN(end)) {
+      setScale([+start, +end]);
+    }
+  };
+
   return (
-    <svg
-      ref={ref}
-      style={{
-        height: 500,
-        width: "100%",
-        marginRight: "0px",
-        marginLeft: "0px",
-      }}
-    >
-      <g className='plot-area' />
-      <g className='x-axis' />
-      <g className='y-axis' />
-    </svg>
+    <div>
+      <label>
+        Start:
+        <input
+          type='text'
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+        />
+      </label>
+      <label>
+        End:
+        <input
+          type='text'
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+        />
+      </label>
+      <button onClick={handleChange}>Change Scale</button>
+      <button onClick={() => setScale([0, 100])}>Reset Scale</button>
+      <svg
+        ref={ref}
+        style={{
+          height: 500,
+          width: "100%",
+          marginRight: "0px",
+          marginLeft: "0px",
+        }}
+      >
+        <g className='plot-area' />
+        <g className='x-axis' />
+        <g className='y-axis' />
+      </svg>
+    </div>
   );
 }
 
