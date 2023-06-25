@@ -1,22 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import BarChart from "./BarChart";
+// Import useState and useEffect
+import { useState, useEffect } from "react";
+import * as d3 from "d3"; // import D3
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    d3.csv("./cities.csv").then((data) => {
+      data.sort((a, b) => a.country < b.country);
+      setData(data);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='App'>
+      <header className='App-header'>
+        <BarChart data={data} />
       </header>
     </div>
   );
