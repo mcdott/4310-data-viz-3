@@ -7,14 +7,13 @@ function FacetedScatterChart({ data }) {
       svg.selectAll("*").remove();
 
       const uniqueSizes = [...new Set(data.map((item) => item.size))];
-      const colors = ["red", "yellow", "black", "white", "blue"];
 
-      const colorScale = d3.scaleOrdinal().domain(colors).range(colors);
       const xScale = d3.scaleLinear().domain([0, 5]).range([0, 150]);
       const yScale = d3.scaleLinear().domain([0, 100]).range([150, 0]);
+      const rScale = d3.scaleSqrt().domain([0, 5]).range([2, 10]); // scale for size
 
       uniqueSizes.forEach((size, i) => {
-        const g = svg.append("g").attr("transform", `translate(${i * 200},0)`); // increase space between charts
+        const g = svg.append("g").attr("transform", `translate(${i * 200},0)`);
 
         const dataSubset = data.filter((item) => item.size === size);
 
@@ -24,8 +23,8 @@ function FacetedScatterChart({ data }) {
           .append("circle")
           .attr("cx", (d) => xScale(d.speed))
           .attr("cy", (d) => yScale(d.percent))
-          .attr("r", 5)
-          .attr("fill", (d) => colorScale(d.color));
+          .attr("r", (d) => rScale(d.size)) // use the size from data
+          .attr("fill", (d) => d.color);
 
         g.append("g")
           .attr("transform", "translate(0,150)")
