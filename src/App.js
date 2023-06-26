@@ -3,7 +3,7 @@ import BubbleChart from "./BubbleChart";
 import BubbleChartSpeed from "./BubbleChartSpeed";
 import FacetedScatterChart from "./FacetedScatterChart";
 import ScatterChart from "./ScatterChart";
-import Sketch from "./Sketch";
+import EyeTrackingSketch from "./EyeTrackingSketch";
 import { useState, useEffect } from "react";
 import * as d3 from "d3";
 
@@ -28,7 +28,7 @@ function App() {
           {isSketchVisible ? "Show charts" : "Show sketch"}
         </button>
         {isSketchVisible ? (
-          <Sketch />
+          <EyeTrackingSketch />
         ) : (
           <>
             <BubbleChart data={data} />
