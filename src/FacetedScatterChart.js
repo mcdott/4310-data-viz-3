@@ -2,87 +2,47 @@ import * as d3 from "d3";
 import { useD3 } from "./useD3";
 
 function FacetedScatterChart({ data }) {
-  const colors = ["red", "yellow", "black", "white", "blue"];
-
   const ref = useD3(
     (svg) => {
-      svg.selectAll("*").remove(); // Clear svg before each render
+      svg.selectAll("*").remove();
 
-      // Define margins
-      const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+      const uniqueSizes = [...new Set(data.map((item) => item.size))];
+      const colors = ["red", "yellow", "black", "white", "blue"];
 
-      const facetSize = Math.sqrt(data.length) * 10;
-      const facetMargin = 10;
+      const colorScale = d3.scaleOrdinal().domain(colors).range(colors);
+      const xScale = d3.scaleLinear().domain([0, 5]).range([0, 150]);
+      const yScale = d3.scaleLinear().domain([0, 100]).range([150, 0]);
 
-      // Create color scale
-      const color = d3.scaleOrdinal().domain(colors).range(colors);
+      uniqueSizes.forEach((size, i) => {
+        const g = svg.append("g").attr("transform", `translate(${i * 200},0)`); // increase space between charts
 
-      // Nest data by size
-      const dataBySize = d3.group(data, (d) => d.size);
+        const dataSubset = data.filter((item) => item.size === size);
 
-      // Create x and y scales
-      const xScale = d3
-        .scaleLinear()
-        .domain(d3.extent(data, (d) => d.speed))
-        .range([facetMargin, facetSize - facetMargin]);
-
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, 100])
-        .range([facetSize - facetMargin, facetMargin]);
-
-      // Create x and y axes
-      const xAxis = d3.axisBottom(xScale).ticks(5);
-      const yAxis = d3.axisLeft(yScale).ticks(5);
-
-      const g = svg
-        .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-      Array.from(dataBySize.keys()).forEach((size, i) => {
-        const sizeData = dataBySize.get(size);
-        const row = Math.floor(i / Math.sqrt(dataBySize.size));
-        const col = i % Math.sqrt(dataBySize.size);
-
-        const gx = g
-          .append("g")
-          .attr(
-            "transform",
-            `translate(${col * facetSize}, ${row * facetSize})`
-          );
-
-        gx.selectAll("circle")
-          .data(sizeData)
-          .join("circle")
+        g.selectAll("circle")
+          .data(dataSubset)
+          .enter()
+          .append("circle")
           .attr("cx", (d) => xScale(d.speed))
           .attr("cy", (d) => yScale(d.percent))
-          .attr("r", 3)
-          .attr("fill", (d) => color(d.color));
+          .attr("r", 5)
+          .attr("fill", (d) => colorScale(d.color));
 
-        gx.append("g")
-          .attr("transform", `translate(0, ${facetSize - facetMargin})`)
-          .call(xAxis);
+        g.append("g")
+          .attr("transform", "translate(0,150)")
+          .call(d3.axisBottom(xScale).ticks(5));
 
-        const gy = gx
-          .append("g")
-          .attr("transform", `translate(${facetMargin}, 0)`)
-          .call(yAxis);
+        g.append("g").call(d3.axisLeft(yScale).ticks(5));
 
-        // Add y-axis label
-        gy.append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", -facetMargin)
-          .attr("x", -facetSize / 2)
-          .attr("dy", "1em")
-          .style("text-anchor", "middle")
-          .text("Percentage Tracking Time");
-
-        gx.append("text")
-          .attr("x", facetSize / 2)
-          .attr("y", facetSize + facetMargin)
-          .attr("text-anchor", "middle")
-          .text(`Size ${size}`);
+        g.append("text").attr("y", 170).text(`Size: ${size}`);
       });
+
+      svg
+        .append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .style("text-anchor", "middle")
+        .text("Percentage Tracking Time")
+        .attr("transform", "translate(-50,150)rotate(-90)");
     },
     [JSON.stringify(data)]
   );
@@ -91,8 +51,8 @@ function FacetedScatterChart({ data }) {
     <svg
       ref={ref}
       style={{
-        height: 800,
-        width: 800,
+        height: 200,
+        width: 1000, // 5 charts * 200 width
         marginRight: "0px",
         marginLeft: "0px",
       }}
