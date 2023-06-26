@@ -1,5 +1,6 @@
 import "./App.css";
 import BubbleChart from "./BubbleChart";
+import BubbleChartSpeed from "./BubbleChartSpeed";
 import { useState, useEffect } from "react";
 import * as d3 from "d3";
 
@@ -16,6 +17,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <BubbleChart data={data} />
+        <BubbleChartSpeed data={data} />
       </header>
     </div>
   );
