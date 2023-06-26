@@ -2,6 +2,7 @@ import "./App.css";
 import BubbleChart from "./BubbleChart";
 import BubbleChartSpeed from "./BubbleChartSpeed";
 import FacetedScatterChart from "./FacetedScatterChart";
+import ScatterChart from "./ScatterChart";
 import { useState, useEffect } from "react";
 import * as d3 from "d3";
 
@@ -20,6 +21,7 @@ function App() {
         <BubbleChart data={data} />
         <BubbleChartSpeed data={data} />
         <FacetedScatterChart data={data} />
+        <ScatterChart data={data} />
       </header>
     </div>
   );
