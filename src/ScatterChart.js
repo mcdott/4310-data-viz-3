@@ -30,7 +30,7 @@ function ScatterChart({ data }) {
         .attr("cy", (d) => yScale(d.percent))
         .attr("r", (d) => rScale(d.size))
         .attr("fill", (d) => d.color)
-        .attr("fill-opacity", 0.5);
+        .attr("fill-opacity", 0.6);
 
       const xAxis = d3
         .axisBottom(xScale)
@@ -73,7 +73,12 @@ function ScatterChart({ data }) {
           sizeText = size;
       }
 
-      g.append("g").attr("transform", `translate(0,${height})`).call(xAxis);
+      // x-axis
+      g.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(xAxis)
+        .selectAll("text")
+        .style("font-size", "16px");
 
       // x-axis label
       g.append("text")
@@ -84,7 +89,11 @@ function ScatterChart({ data }) {
         .style("font-size", "20px")
         .text("Target Speed");
 
-      g.append("g").call(d3.axisLeft(yScale).ticks(5));
+      // y-axis
+      g.append("g")
+        .call(d3.axisLeft(yScale).ticks(5))
+        .selectAll("text")
+        .style("font-size", "16px");
 
       // y-axis label
       g.append("text")

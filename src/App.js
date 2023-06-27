@@ -12,7 +12,7 @@ function App() {
   const [isSketchVisible, setIsSketchVisible] = useState(false);
 
   useEffect(() => {
-    d3.json("./data2.json").then((data) => {
+    d3.json("./data.json").then((data) => {
       setData(data);
     });
   }, []);
