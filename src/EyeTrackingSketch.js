@@ -1,57 +1,93 @@
-import React, { useRef } from "react";
-import Sketch from "react-p5";
-import audioFile from "./birds.mp3";
+import React, { useEffect, useRef } from "react";
+import p5 from "p5";
 
-const SketchComponent = () => {
-  const colors = ["red", "yellow", "white", "black", "gray"];
-  const backgrounds = ["black", "black", "black", "white", "white"];
-  const audio = useRef(new Audio(audioFile));
+const Sketch = () => {
+  const myP5 = useRef();
+  const myContainer = useRef();
 
-  const index = Math.floor(Math.random() * colors.length);
-  const ball = useRef({
-    pos: { x: 0, y: 0 },
-    color: colors[index],
-    backgroundColor: backgrounds[index],
-  });
+  useEffect(() => {
+    myP5.current = new p5(sketch, myContainer.current);
+    return () => myP5.current.remove();
+  }, []);
 
-  const setup = (p5, canvasParentRef) => {
-    p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
-    ball.current.pos.y = p5.height / 2;
-  };
+  const sketch = (p) => {
+    let sizes = [10, 20, 30, 40, 50];
+    let speeds = [1, 2, 3, 4, 5];
+    let combinations = [];
 
-  const draw = (p5) => {
-    p5.background(ball.current.backgroundColor);
-    p5.noStroke();
-    p5.fill(ball.current.color);
-    p5.ellipse(ball.current.pos.x, ball.current.pos.y, 50, 50);
+    let ball = {
+      x: 100,
+      y: 100,
+      xSpeed: 2,
+      ySpeed: 3,
+      size: 24,
+    };
 
-    if (ball.current.pos.x > p5.width + 25) {
-      const index = Math.floor(Math.random() * colors.length);
-      ball.current.color = colors[index];
-      ball.current.backgroundColor = backgrounds[index];
-      ball.current.pos.x = -25;
-    } else {
-      ball.current.pos.x += 2;
+    p.setup = () => {
+      p.createCanvas(400, 400);
+
+      // Create all possible combinations of size and speed
+      for (let i = 0; i < sizes.length; i++) {
+        for (let j = 0; j < speeds.length; j++) {
+          combinations.push({ size: sizes[i], speed: speeds[j] });
+        }
+      }
+
+      // Shuffle combinations
+      combinations = shuffle(combinations);
+    };
+
+    p.draw = () => {
+      if (combinations.length === 0) {
+        p.noLoop(); // Stop the animation
+        return;
+      }
+
+      // Every 5 seconds
+      if (p.frameCount % (5 * 60) === 0) {
+        let combination = combinations.shift(); // Get the next combination
+        ball.size = combination.size;
+        ball.xSpeed = combination.speed;
+        ball.ySpeed = combination.speed;
+      }
+
+      p.background(220);
+
+      // Move the ball
+      ball.x += ball.xSpeed;
+      ball.y += ball.ySpeed;
+
+      // Check for bounce
+      if (ball.x > p.width - ball.size / 2 || ball.x < ball.size / 2) {
+        ball.xSpeed = ball.xSpeed * -1;
+      }
+
+      if (ball.y > p.height - ball.size / 2 || ball.y < ball.size / 2) {
+        ball.ySpeed = ball.ySpeed * -1;
+      }
+
+      // Draw the ball
+      p.fill(150, 0, 255);
+      p.ellipse(ball.x, ball.y, ball.size, ball.size);
+    };
+
+    // Function to shuffle an array
+    function shuffle(array) {
+      let currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array;
     }
   };
 
-  const mouseMoved = (p5) => {
-    // Check if the mouse is over the ball
-    if (
-      p5.dist(p5.mouseX, p5.mouseY, ball.current.pos.x, ball.current.pos.y) < 25
-    ) {
-      if (audio.current.paused) {
-        audio.current.play(); // Play the sound only if it's not already playing
-      }
-    } else {
-      if (!audio.current.paused) {
-        audio.current.pause(); // Pause the sound only if it's playing
-        audio.current.currentTime = 0; // Reset the audio playback
-      }
-    }
-  };
-
-  return <Sketch setup={setup} draw={draw} mouseMoved={mouseMoved} />;
+  return <div ref={myContainer}></div>;
 };
 
-export default SketchComponent;
+export default Sketch;

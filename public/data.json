@@ -603,13 +603,13 @@
     "size": 5,
     "color": "red",
     "speed": 1,
-    "percent": 40
+    "percent": 45
   },
   {
     "size": 5,
     "color": "yellow",
     "speed": 1,
-    "percent": 34
+    "percent": 43
   },
   {
     "size": 5,
@@ -621,7 +621,7 @@
     "size": 5,
     "color": "white",
     "speed": 1,
-    "percent": 29
+    "percent": 39
   },
   {
     "size": 5,

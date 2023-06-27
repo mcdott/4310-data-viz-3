@@ -107,7 +107,7 @@ function ScatterChart({ data }) {
 
       // size label
       g.append("text")
-        .attr("y", height + margin.bottom * 1.5)
+        .attr("y", height + margin.bottom * 2)
         .text(`Target Size: ${sizeText}`)
         .style("fill", "white")
         .style("font-size", "20px");
@@ -131,7 +131,7 @@ function ScatterChart({ data }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        marginTop: "120px",
+        marginTop: "70px",
         marginBottom: "100px",
       }}
     >
@@ -149,7 +149,11 @@ function ScatterChart({ data }) {
         <g className='y-axis' />
       </svg>
       <button
-        style={{ marginLeft: "100px" }}
+        style={{
+          marginLeft: "100px",
+          backgroundColor: "white",
+          marginTop: "0px",
+        }}
         onClick={() => setSize((prevSize) => (prevSize < 5 ? prevSize + 1 : 1))}
       >
         Change size

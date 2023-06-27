@@ -1,6 +1,5 @@
 import "./App.css";
 import BubbleChart from "./BubbleChart";
-import BubbleChartSpeed from "./BubbleChartSpeed";
 import FacetedScatterChart from "./FacetedScatterChart";
 import ScatterChart from "./ScatterChart";
 import EyeTrackingSketch from "./EyeTrackingSketch";
@@ -25,16 +24,15 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <button onClick={handleToggle}>
-          {isSketchVisible ? "Show charts" : "Show sketch"}
+          {isSketchVisible ? "Show Results" : "Perform Assessment"}
         </button>
         {isSketchVisible ? (
           <EyeTrackingSketch />
         ) : (
           <>
-            <BubbleChart data={data} />
-            <BubbleChartSpeed data={data} />
-            <FacetedScatterChart data={data} />
             <ScatterChart data={data} />
+            <FacetedScatterChart data={data} />
+            <BubbleChart data={data} />
           </>
         )}
       </header>
