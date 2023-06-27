@@ -17,6 +17,27 @@ function FacetedScatterChart({ data }) {
 
         const dataSubset = data.filter((item) => item.size === size);
 
+        let sizeText;
+        switch (size) {
+          case 1:
+            sizeText = "S";
+            break;
+          case 2:
+            sizeText = "M";
+            break;
+          case 3:
+            sizeText = "L";
+            break;
+          case 4:
+            sizeText = "XL";
+            break;
+          case 5:
+            sizeText = "XXL";
+            break;
+          default:
+            sizeText = size;
+        }
+
         g.selectAll("circle")
           .data(dataSubset)
           .enter()
@@ -32,7 +53,11 @@ function FacetedScatterChart({ data }) {
 
         g.append("g").call(d3.axisLeft(yScale).ticks(5));
 
-        g.append("text").attr("y", 170).text(`Size: ${size}`);
+        g.append("text")
+          .attr("y", 200)
+          .text(`Size: ${sizeText}`)
+          .style("font-size", "20px")
+          .style("fill", "white");
       });
 
       svg

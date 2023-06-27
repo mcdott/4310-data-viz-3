@@ -9,7 +9,7 @@ function ScatterChart({ data }) {
     (svg) => {
       svg.selectAll("*").remove();
 
-      const margin = { top: 50, right: 20, bottom: 50, left: 100 }; // Adjust the top margin to give space for the title
+      const margin = { top: 50, right: 20, bottom: 50, left: 100 };
       const width = 800 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
@@ -55,19 +55,19 @@ function ScatterChart({ data }) {
       let sizeText;
       switch (size) {
         case 1:
-          sizeText = "s";
+          sizeText = "S";
           break;
         case 2:
-          sizeText = "m";
+          sizeText = "M";
           break;
         case 3:
-          sizeText = "l";
+          sizeText = "L";
           break;
         case 4:
-          sizeText = "xl";
+          sizeText = "XL";
           break;
         case 5:
-          sizeText = "xxl";
+          sizeText = "XXL";
           break;
         default:
           sizeText = size;
@@ -75,29 +75,57 @@ function ScatterChart({ data }) {
 
       g.append("g").attr("transform", `translate(0,${height})`).call(xAxis);
 
+      // x-axis label
+      g.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom)
+        .style("text-anchor", "middle")
+        .style("fill", "white")
+        .style("font-size", "20px")
+        .text("Target Speed");
+
       g.append("g").call(d3.axisLeft(yScale).ticks(5));
 
+      // y-axis label
       g.append("text")
-        .attr("y", height + margin.bottom / 2)
-        .text(`Size: ${sizeText}`);
+        .attr("x", -height / 2)
+        .attr("y", -margin.left / 2)
+        .attr("text-anchor", "middle")
+        .style("fill", "white")
+        .style("font-size", "20px")
+        .attr("transform", "rotate(-90)")
+        .text("Tracking Success (% of time on target)");
 
-      // Add a title to the chart
+      // size label
+      g.append("text")
+        .attr("y", height + margin.bottom * 1.5)
+        .text(`Target Size: ${sizeText}`)
+        .style("fill", "white")
+        .style("font-size", "20px");
+
+      // title
       svg
         .append("text")
         .attr("x", width / 2 + margin.left) // Position the title in the middle of the chart
-        .attr("y", margin.top / 2) // Position the title halfway up the margin
+        .attr("y", margin.top * 0.5) // Position the title halfway up the margin
         .attr("text-anchor", "middle") // Centre the text
-        .style("font-size", "18px")
-        .style("font-weight", "bold")
-        .text(
-          "Eye Tracking Success vs Target Speed, Target Colour, Target Size"
-        );
+        .style("font-size", "26px")
+        .style("fill", "white")
+        .text("Eye Tracking Success vs Target Speed, Colour, and Size");
     },
     [JSON.stringify(data), size]
   );
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        marginTop: "120px",
+        marginBottom: "100px",
+      }}
+    >
       <svg
         ref={ref}
         style={{
@@ -112,11 +140,12 @@ function ScatterChart({ data }) {
         <g className='y-axis' />
       </svg>
       <button
+        style={{ marginLeft: "100px" }}
         onClick={() => setSize((prevSize) => (prevSize < 5 ? prevSize + 1 : 1))}
       >
         Change size
       </button>
-    </>
+    </div>
   );
 }
 
