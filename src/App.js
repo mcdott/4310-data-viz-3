@@ -27,7 +27,7 @@ function App() {
           {isSketchVisible ? "Show Results" : "Perform Assessment"}
         </button>
         {isSketchVisible ? (
-          <EyeTrackingSketch />
+          <EyeTrackingSketch width={900} height={650} />
         ) : (
           <>
             <ScatterChart data={data} />
