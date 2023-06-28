@@ -1,22 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import BubbleChart from "./BubbleChart";
+import FacetedScatterChart from "./FacetedScatterChart";
+import ScatterChart from "./ScatterChart";
+import EyeTrackingSketch from "./EyeTrackingSketch";
+import { useState, useEffect } from "react";
+import * as d3 from "d3";
 
 function App() {
+  const [data, setData] = useState([]);
+  const [isSketchVisible, setIsSketchVisible] = useState(false);
+
+  useEffect(() => {
+    d3.json("./data.json").then((data) => {
+      setData(data);
+    });
+  }, []);
+
+  const handleToggle = () => {
+    setIsSketchVisible(!isSketchVisible);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='App'>
+      <header className='App-header'>
+        <button onClick={handleToggle}>
+          {isSketchVisible ? "Show Results" : "Perform Assessment"}
+        </button>
+        {isSketchVisible ? (
+          <EyeTrackingSketch width={900} height={650} />
+        ) : (
+          <>
+            <ScatterChart data={data} />
+            <FacetedScatterChart data={data} />
+            <BubbleChart data={data} />
+          </>
+        )}
       </header>
     </div>
   );
