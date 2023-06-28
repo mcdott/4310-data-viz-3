@@ -29,6 +29,7 @@ const Sketch = ({ width = 400, height = 400 }) => {
       y: 100,
       xSpeed: 2,
       ySpeed: 3,
+      speed: 2, // for data logging
       size: 24,
       color: colors[0],
     };
@@ -78,6 +79,7 @@ const Sketch = ({ width = 400, height = 400 }) => {
         }
         let combination = combinations.shift(); // Get the next combination
         ball.size = combination.size;
+        ball.speed = combination.speed; // update the speed property for data logging
         ball.xSpeed = combination.speed;
         ball.ySpeed = combination.speed;
         ball.color = combination.color;
